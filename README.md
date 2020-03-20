@@ -12,4 +12,4 @@ How to use<br>
 
 ******
 
-Thanks to my friend Jun Lei. This project created and belongs to him. I just update the version of spring boot and mybatis-plus.
+Thanks to my friend Jun Lei. This project was created and belongs to him. I just update the version of spring boot and mybatis-plus.
