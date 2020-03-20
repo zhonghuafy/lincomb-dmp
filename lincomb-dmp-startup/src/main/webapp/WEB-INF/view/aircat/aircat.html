@@ -1,0 +1,36 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>空气猫数据信息</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <#NameCon id="condition" name="用户ID" />
+                            </div>
+                            <div class="col-sm-2">
+                                <#TimeCon id="startTime" name="开始时间" isTime="false" pattern="yyyy-MM-dd HH:mm:ss" />
+                            </div>
+                            <div class="col-sm-2">
+                                <#TimeCon id="endTime" name="结束时间" isTime="false" pattern="yyyy-MM-dd HH:mm:ss" />
+                            </div>
+                            <div class="col-sm-3">
+                                <#button name="搜索" icon="fa-search" clickFun="Aircat.search()"/>
+                            </div>
+                        </div>
+                        <div class="hidden-xs" id="AircatTableToolbar" role="group">
+                            <#button name="查看详情" icon="fa-plus" clickFun="Aircat.openLogDetail()"/>
+                        </div>
+                        <#table id="AircatTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/aircat/aircat.js"></script>
+@}

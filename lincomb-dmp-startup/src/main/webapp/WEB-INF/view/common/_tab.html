@@ -1,0 +1,84 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="nav-close"><i class="fa fa-times-circle"></i>
+    </div>
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <span><img alt="image" class="img-circle"
+                               @if(isEmpty(avatar)){
+                                    src="${ctxPath}/static/img/head.png"
+                               @}else{
+                                    src="${ctxPath}/kaptcha/${avatar}"
+                               @}
+                               width="64px" height="64px"/></span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                       <span class="block m-t-xs"><strong class="font-bold">${shiro.getUser().name}</strong></span>
+                        <span class="text-muted text-xs block">${shiro.getUser().roleNames[0]}<b class="caret"></b></span>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a class="J_menuItem" href="${ctxPath}/mgr/user_info">个人资料</a></li>
+                        <li><a class="J_menuItem" href="${ctxPath}/mgr/user_chpwd">修改密码</a></li>
+                        <li class="divider"></li>
+                        <li><a href="${ctxPath}/logout">安全退出</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="logo-element">GS
+                </div>
+            </li>
+
+            @for(title in titles){
+                @if(tool.isEmpty(@title.getChildren())){
+                    <li>
+                        <a class="J_menuItem" href="${ctxPath}${@title.getUrl()}" name="tabMenuItem">
+                            <i class="fa ${@title.getIcon()}"></i>
+                            <span class="nav-label">${@title.getName()}</span>
+                        </a>
+                    </li>
+                @}else{
+                    <li>
+                        <a href="#">
+                            <i class="fa ${@title.getIcon()}"></i>
+                            <span class="nav-label">${@title.getName()}</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            @for(subTitle in @title.getChildren()){
+                                @if(tool.isEmpty(@subTitle.getChildren())){
+                                    <li>
+                                        <a class="J_menuItem" href="${ctxPath}${@subTitle.getUrl()}" name="tabMenuItem">
+                                            <i class="fa ${@subTitle.getIcon()}"></i>
+                                            <span class="nav-label">${@subTitle.getName()}</span>
+                                        </a>
+                                    </li>
+                                @}else{
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa ${@subTitle.getIcon()}"></i>
+                                            <span class="fa arrow"></span>
+                                            <span class="nav-label">${@subTitle.getName()}</span>
+                                        </a>
+                                        <ul class="nav nav-third-level">
+                                            @for(thirdTitle in @subTitle.getChildren()){
+                                            <li>
+                                                <a class="J_menuItem" href="${ctxPath}${@thirdTitle.getUrl()}" name="tabMenuItem">
+                                                    <i class="fa ${@thirdTitle.getIcon()}"></i>
+                                                    <span class="nav-label">${@thirdTitle.getName()}</span>
+                                                </a>
+                                            </li>
+                                            @}
+                                        </ul>
+                                    </li>
+                                @}
+                            @}
+                        </ul>
+                    </li>
+                @}
+            @}
+
+        </ul>
+    </div>
+</nav>

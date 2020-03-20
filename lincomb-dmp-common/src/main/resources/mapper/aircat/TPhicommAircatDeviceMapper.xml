@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lincomb.dmp.persistence.mapper.aircat.TPhicommAircatDeviceMapper">
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.lincomb.dmp.persistence.model.aircat.TPhicommAircatDevice">
+		<id column="id" property="id" />
+		<result column="mac" property="mac" />
+		<result column="device_id" property="deviceId" />
+		<result column="update_time" property="updateTime" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+    <!-- create by qing.xiong on 2018-1-24 13:19:50 -->
+    <select id="getAll" resultMap="BaseResultMap">
+        SELECT * FROM t_phicomm_aircat_device ORDER BY id
+    </select>
+    <!-- end -->
+	
+	<sql id="Base_Column_List">
+		id,mac,device_id,create_time
+		,update_time
+	</sql>
+	<!-- 查询 -->
+	<select id="listDevice" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_phicomm_aircat_device
+		WHERE  1 = 1
+		${ew.sqlSegment}
+	</select>
+	
+	<!-- 批量插入 -->
+	 <insert id ="batchInsert">
+             insert into t_phicomm_aircat_device
+             (mac,create_time)
+             values
+             <foreach collection ="list" item="item" index= "index" separator =",">
+                 (
+                 #{item.mac},
+                 SYSDATE()
+                 )
+             </foreach >
+      </insert >
+
+
+	<!-- listLimit creat by shiyu.cao on 2018-01-29 13:54:24 -->
+	<select id="listLimit" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_phicomm_aircat_device
+		limit #{startSize},#{sizeNum}
+	</select>
+
+</mapper>

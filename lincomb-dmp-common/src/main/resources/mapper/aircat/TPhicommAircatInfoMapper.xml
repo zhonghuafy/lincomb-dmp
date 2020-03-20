@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lincomb.dmp.persistence.mapper.aircat.TPhicommAircatInfoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.lincomb.dmp.persistence.model.aircat.TPhicommAircatInfo">
+		<id column="id" property="id" />
+		<result column="mac" property="mac" />
+		<result column="temperature" property="temperature" />
+		<result column="humidity" property="humidity" />
+		<result column="hcho" property="hcho" />
+		<result column="pm_value" property="pmValue" />
+		<result column="kinect" property="kinect" />
+		<result column="position" property="position" />
+		<result column="cat_time" property="catTime" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,mac,temperature,humidity,hcho,pm_value ,kinect,position,cat_time,create_time
+		,update_time
+	</sql>
+
+
+	<select id="listPages" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_phicomm_aircat_info
+		WHERE  1 = 1
+		${ew.sqlSegment}
+	</select>
+
+	<insert id="batchInserList">
+		insert into t_phicomm_aircat_info(id,mac,create_time) values
+		<foreach collection="list" separator="," item="item" index="index">
+			(0,#{item.mac},SYSDATE())
+		</foreach>
+	</insert>
+
+
+	<update id="batchUpdateList">
+		<foreach collection="list" item="item" index="index" separator=";">
+			update t_phicomm_aircat_info
+			<set>
+				temperature = '${item.temperature}',
+				humidity = '${item.humidity}',
+				hcho = '${item.hcho}',
+				pm_value = '${item.pmValue}',
+				kinect = '${item.kinect}',
+				cat_time = '${item.catTime}',
+				update_time = SYSDATE()
+			</set>
+			where mac = '${item.mac}'
+		</foreach>
+	</update>
+</mapper>

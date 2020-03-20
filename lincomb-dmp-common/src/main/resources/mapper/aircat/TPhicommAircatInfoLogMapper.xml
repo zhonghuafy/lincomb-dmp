@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lincomb.dmp.persistence.mapper.aircat.TPhicommAircatInfoLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.lincomb.dmp.persistence.model.aircat.TPhicommAircatInfoLog">
+        <id column="id" property="id"/>
+        <result column="mac" property="mac"/>
+        <result column="temperature" property="temperature"/>
+        <result column="humidity" property="humidity"/>
+        <result column="hcho" property="hcho"/>
+        <result column="pm_value" property="pmValue"/>
+        <result column="kinect" property="kinect"/>
+        <result column="position" property="position"/>
+        <result column="cat_time" property="catTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+	id,mac,temperature,humidity,hcho,pm_value,kinect,position,cat_time,create_time
+	</sql>
+
+    <!-- creat by shiyu.cao on 2017-12-28 16:53:58-->
+    <select id="listLogPages" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_phicomm_aircat_info_log
+        WHERE 1 = 1
+        ${ew.sqlSegment}
+    </select>
+
+    <select id="getAircatInfoLogList" resultMap="BaseResultMap">
+        SELECT a.* FROM t_phicomm_aircat_info_log a WHERE NOT EXISTS (
+		SELECT 1 FROM t_phicomm_aircat_info_log b
+		WHERE b.mac = a.mac
+		AND b.cat_time > a.cat_time);
+    </select>
+
+    <!-- create by qing.xiong on 2018-1-23 15:40:00 -->
+    <insert id="batchInserList" parameterType="java.util.List">
+        INSERT INTO t_phicomm_aircat_info_log(mac,temperature,humidity,hcho,pm_value,kinect,position,cat_time,create_time) VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.mac},#{item.temperature},#{item.humidity},#{item.hcho},#{item.pmValue},#{item.kinect},#{item.position},#{item.catTime},SYSDATE())
+        </foreach>
+    </insert>
+
+</mapper>

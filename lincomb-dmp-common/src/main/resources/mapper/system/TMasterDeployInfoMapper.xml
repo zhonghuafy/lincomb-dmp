@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lincomb.dmp.persistence.mapper.system.TMasterDeployInfoMapper">
+  <resultMap id="BaseResultMap" type="com.lincomb.dmp.persistence.model.TMasterDeployInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="slave_name" jdbcType="VARCHAR" property="slaveName" />
+    <result column="slave_status" jdbcType="CHAR" property="slaveStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="orders" jdbcType="INTEGER" property="orders" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, slave_name, slave_status, create_time, update_time, remark,orders
+  </sql>
+
+  <select id="selectDeploysPage" resultType="map">
+    SELECT <include refid="Base_Column_List"/>
+    FROM t_master_deploy_info
+    ORDER BY slave_status DESC
+  </select>
+
+  <select id="selectDeploys" resultType="map">
+    select
+    <include refid="Base_Column_List" />
+    from sys_role
+    <include refid="whereParam"/>
+  </select>
+
+  <select id="selectMax" resultType="java.lang.Integer">
+    SELECT max(orders) from t_master_deploy_info
+  </select>
+
+  <sql id="whereParam">
+    <where>
+      <if test="param.slaveName != null and param.slaveName != ''">
+        AND slave_name LIKE concat('%',#{param.slaveName},'%')
+      </if>
+      <if test="param.slaveStatus != null and param.slaveStatus != ''">
+        AND slave_status LIKE concat('%',#{param.slaveStatus},'%')
+      </if>
+      <if test="param.createTime != null and param.createTime != ''">
+        AND create_time LIKE concat('%',#{param.createTime},'%')
+      </if>
+      <if test="param.updateTime != null and param.updateTime != ''">
+        AND update_time LIKE concat('%',#{param.updateTime},'%')
+      </if>
+      <if test="param.remark != null and param.remark != ''">
+        AND remark LIKE concat('%',#{param.remark},'%')
+      </if>
+    </where>
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_master_deploy_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete from t_master_deploy_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <!--<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.lincomb.dmp.persistence.model.TMasterDeployInfo">-->
+    <!--<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">-->
+      <!--SELECT LAST_INSERT_ID()-->
+    <!--</selectKey>-->
+    <!--insert into t_master_deploy_info-->
+    <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+      <!--<if test="id != null">-->
+        <!--id,-->
+      <!--</if>-->
+      <!--<if test="slaveName != null">-->
+        <!--slave_name,-->
+      <!--</if>-->
+      <!--<if test="slaveStatus != null">-->
+        <!--slave_status,-->
+      <!--</if>-->
+      <!--<if test="createTime != null">-->
+        <!--create_time,-->
+      <!--</if>-->
+      <!--<if test="updateTime != null">-->
+        <!--update_time,-->
+      <!--</if>-->
+      <!--<if test="remark != null">-->
+        <!--remark,-->
+      <!--</if>-->
+      <!--<if test="orders != null">-->
+        <!--orders,-->
+      <!--</if>-->
+    <!--</trim>-->
+    <!--<trim prefix="values (" suffix=")" suffixOverrides=",">-->
+      <!--<if test="id != null">-->
+        <!--#{id,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="slaveName != null">-->
+        <!--#{slaveName,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="slaveStatus != null">-->
+        <!--#{slaveStatus,jdbcType=CHAR},-->
+      <!--</if>-->
+      <!--<if test="createTime != null">-->
+        <!--SYSDATE(),-->
+      <!--</if>-->
+      <!--<if test="updateTime != null">-->
+        <!--#{updateTime,jdbcType=TIMESTAMP},-->
+      <!--</if>-->
+      <!--<if test="remark != null">-->
+        <!--#{remark,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="orders != null">-->
+        <!--#{orders,jdbcType=INTEGER},-->
+      <!--</if>-->
+    <!--</trim>-->
+  <!--</insert>-->
+
+  <update id="update" parameterType="com.lincomb.dmp.persistence.model.TMasterDeployInfo">
+    update t_master_deploy_info
+    <set>
+      <if test="slaveName != null">
+        slave_name = #{slaveName,jdbcType=VARCHAR},
+      </if>
+      <if test="slaveStatus != null">
+        slave_status = #{slaveStatus,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = SYSDATE(),
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+        orders = #{orders,jdbcType=INTEGER},
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateOrders" parameterType="com.lincomb.dmp.persistence.model.TMasterDeployInfo">
+      update t_master_deploy_info
+      set orders=orders-1
+      where orders > #{orders}
+  </update>
+
+  <update id="updateOrdersById" parameterType="java.lang.Integer">
+    UPDATE t_master_deploy_info SET  orders = #{maxOrders} WHERE  id = #{id};
+  </update>
+</mapper>
