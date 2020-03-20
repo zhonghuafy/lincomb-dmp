@@ -60,7 +60,7 @@ public class Generator {
         dsc.setPassword("ggs2");
 //        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/xkcrawler?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false");
 //        dsc.setUrl("jdbc:mysql://103.10.0.117:3306/xkmagiccrawler?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false");
-        dsc.setUrl("jdbc:mysql://10.19.205.97:3306/user_portrait?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false");
+        dsc.setUrl("jdbc:mysql://localhost:3306/user_portrait?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false");
         mpg.setDataSource(dsc);
 
         // 策略配置
@@ -86,7 +86,7 @@ public class Generator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.yunda.sys.up.basic.persistence");
+        pc.setParent("org.fe.pack.basic.persistence");
         pc.setEntity("model");
         pc.setMapper("mapper");
         pc.setXml("mapper");
