@@ -34,7 +34,7 @@
         <commons-lang3.version>3.6</commons-lang3.version>
         <ehcache.core.version>2.6.11</ehcache.core.version>
         <commons-net.version>3.5</commons-net.version>
-        <mysql-connector-java.version>8.0.18</mysql-connector-java.version>
+        <mysql-connector-java.version>8.0.28</mysql-connector-java.version>
         <cassandra-driver.version>3.3.2</cassandra-driver.version>
     </properties>
 
